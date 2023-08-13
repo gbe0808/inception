@@ -1,12 +1,10 @@
 version: '3.8'
 services:
-  web:
-    image: alicek106/composetest:web
-    ports:
-      - "80:80"
-    links:
-      - mysql:db
-    command: apachectl -DFOREGROUND
-  mysql:
-    image: alicek106/composetest:mysql
-    command: mysqld
+  mariadb:
+    image: mydb:inception
+    networks:
+      - inception
+
+networks:
+  inception:
+    driver: bridge
