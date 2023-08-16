@@ -1,7 +1,24 @@
 version: '3.8'
 services:
-  mariadb:
-    image: mydb:inception
+  # mariadb:
+  #   image: mydb:inception
+  #   environment:
+  #     MARIADB_ROOT_HOST: ghtmxm
+  #     MARIADB_ROOT_PASSWORD: fnxm123
+  #     MARIADB_USER: dbwj
+  #     MARIADB_PASSWORD: qlqjs123
+  #   build:
+  #     context: requirements/mariadb
+  #   ports:
+  #     - "3306:3306"
+  #   networks:
+  #     - inception
+  nginx:
+    image: mywebserver:inception
+    build:
+      context: requirements/nginx
+    ports:
+      - "443:443"
     networks:
       - inception
 
