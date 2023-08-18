@@ -9,5 +9,4 @@ RUN apk update && apk upgrade && \
 
 ADD conf/nginx.conf /etc/nginx
 
-EXPOSE 443
-
+EXPOSE 443 9000

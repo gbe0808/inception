@@ -17,8 +17,9 @@ services:
     image: mywebserver:inception
     build:
       context: requirements/nginx
+    command: tail -f /dev/null
     ports:
-      - "443:443"
+      - "8080:443"
     networks:
       - inception
 
