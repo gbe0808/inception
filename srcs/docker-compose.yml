@@ -9,14 +9,32 @@ services:
   #   networks:
   #     - inception
   nginx:
-    image: mywebserver:inception
+    image: nginx:sunwsong
     build:
       context: requirements/nginx
     ports:
       - "8080:443"
     networks:
-      - inception
+      - mybridge
+    volumes:
+      - myvol:/var/www/html
+    stdin_open: true #tmp
+    tty: true #tmp
+
+  wordpress:
+    image: mywp
+    build:
+      context: requirements/wordpress
+    networks:
+      - mybridge
+    volumes:
+      - myvol:/var/www/html
+    stdin_open: true #tmp
+    tty: true #tmp
 
 networks:
-  inception:
+  mybridge:
     driver: bridge
+
+volumes:
+  myvol:
