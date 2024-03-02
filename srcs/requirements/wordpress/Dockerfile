@@ -7,3 +7,8 @@ RUN apk add php php-common php-json php-curl php-xml php-mysqli php-cgi fcgi php
     mkdir /var/www && \
     mkdir /var/www/html && \
     wp core download --path=/var/www/html --allow-root
+
+ADD conf/www.conf /etc/php81/php-fpm.d/www.conf
+ADD conf/wp-config.php /var/www/html/wp-config.php
+
+EXPOSE 9000

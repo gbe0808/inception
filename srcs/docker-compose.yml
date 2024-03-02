@@ -1,34 +1,38 @@
 version: '3.8'
 services:
-  # mariadb:
-  #   image: mydb:inception
-  #   build:
-  #     context: requirements/mariadb
-  #   ports:
-  #     - "3306:3306"
-  #   networks:
-  #     - inception
-  nginx:
-    image: nginx:sunwsong
+  mariadb:
     build:
-      context: requirements/nginx
-    ports:
-      - "8080:443"
+      context: requirements/mariadb
     networks:
       - mybridge
     volumes:
-      - myvol:/var/www/html
+     - /home/sunwsong/data:/etc/mysql
     stdin_open: true #tmp
     tty: true #tmp
 
   wordpress:
-    image: mywp
     build:
       context: requirements/wordpress
     networks:
       - mybridge
     volumes:
-      - myvol:/var/www/html
+     - /home/sunwsong/data:/var/www/html
+    depends_on:
+      - mariadb
+    stdin_open: true #tmp
+    tty: true #tmp
+
+  nginx:
+    build:
+      context: requirements/nginx
+    networks:
+      - mybridge
+    volumes:
+     - /home/sunwsong/data:/var/www/html
+    ports:
+      - "8080:443"
+    depends_on:
+      - wordpress
     stdin_open: true #tmp
     tty: true #tmp
 
@@ -38,3 +42,4 @@ networks:
 
 volumes:
   myvol:
+  dbvol:
