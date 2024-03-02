@@ -1,9 +1,10 @@
 NAME = inception
 
-all	:	$(NAME)
-
-$(NAME) : 
+up : 
 	cd srcs && docker compose up -d
+
+down :
+	cd srcs && docker compose down
 
 clean	:
 	docker stop $$(docker ps -aq)
@@ -11,7 +12,7 @@ clean	:
 
 fclean	:	clean
 	docker image rm -f $$(docker images -q)
-#	docker volume rm -f $$(docker volume ls -q)
+	docker volume rm -f $$(docker volume ls -q)
 	docker network rm $$(docker network ls -q)
 
 re	: fclean $(NAME)

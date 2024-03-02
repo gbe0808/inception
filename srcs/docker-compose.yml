@@ -5,8 +5,8 @@ services:
       context: requirements/mariadb
     networks:
       - mybridge
-    volumes:
-     - /home/sunwsong/data:/etc/mysql
+    # volumes:
+    #   - /home/sunwsong/data:/etc/mysql
     stdin_open: true #tmp
     tty: true #tmp
 
@@ -16,9 +16,10 @@ services:
     networks:
       - mybridge
     volumes:
-     - /home/sunwsong/data:/var/www/html
+      - myvol:/var/www/html
     depends_on:
       - mariadb
+    # restart: always
     stdin_open: true #tmp
     tty: true #tmp
 
@@ -28,11 +29,12 @@ services:
     networks:
       - mybridge
     volumes:
-     - /home/sunwsong/data:/var/www/html
+      - myvol:/var/www/html
     ports:
       - "8080:443"
     depends_on:
       - wordpress
+    # restart: always
     stdin_open: true #tmp
     tty: true #tmp
 
@@ -42,4 +44,4 @@ networks:
 
 volumes:
   myvol:
-  dbvol:
+  # dbvol:
