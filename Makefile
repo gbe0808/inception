@@ -1,18 +1,14 @@
-NAME = inception
-
-up : 
+up :
+	mkdir -p /home/sunwsong/data/wpvol
+	mkdir -p /home/sunwsong/data/dbvol
 	cd srcs && docker compose up -d
 
 down :
 	cd srcs && docker compose down
 
 clean	:
-	docker stop $$(docker ps -aq)
-	docker rm -f $$(docker ps -aq)
+	cd srcs && docker compose down --rmi all -v --remove-orphans
+	rm -rf /home/sunwsong/data/wpvol
+	rm -rf /home/sunwsong/data/dbvol
 
-fclean	:	clean
-	docker image rm -f $$(docker images -q)
-	docker volume rm -f $$(docker volume ls -q)
-	docker network rm $$(docker network ls -q)
-
-re	: fclean $(NAME)
+re	: clean up

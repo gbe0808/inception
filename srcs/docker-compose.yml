@@ -6,7 +6,13 @@ services:
     networks:
       - mybridge
     # volumes:
-    #   - /home/sunwsong/data:/etc/mysql
+    #   - dbvol:/etc/mysql
+    restart: always
+    environment:
+      - DB_NAME
+      - DB_USER
+      - DB_PASSWD
+      - DB_HOST
     stdin_open: true #tmp
     tty: true #tmp
 
@@ -16,10 +22,17 @@ services:
     networks:
       - mybridge
     volumes:
-      - myvol:/var/www/html
+      - wpvol:/var/www/html
     depends_on:
       - mariadb
-    # restart: always
+    restart: always
+    environment:
+      - DB_NAME
+      - DB_USER
+      - DB_PASSWD
+      - DB_HOST
+      - WP_ADMIN_PASSWD
+      - WP_USER_PASSWD
     stdin_open: true #tmp
     tty: true #tmp
 
@@ -29,12 +42,12 @@ services:
     networks:
       - mybridge
     volumes:
-      - myvol:/var/www/html
+      - wpvol:/var/www/html
     ports:
-      - "8080:443"
+      - "443:443"
     depends_on:
       - wordpress
-    # restart: always
+    restart: always
     stdin_open: true #tmp
     tty: true #tmp
 
@@ -43,5 +56,5 @@ networks:
     driver: bridge
 
 volumes:
-  myvol:
+  wpvol:
   # dbvol:
