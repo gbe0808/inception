@@ -4,23 +4,23 @@ services:
     build:
       context: requirements/mariadb
     networks:
-      - mybridge
-    # volumes:
-    #   - dbvol:/etc/mysql
+      - mynet
+    volumes:
+      - dbvol:/etc/mysql
     restart: always
     environment:
       - DB_NAME
       - DB_USER
       - DB_PASSWD
       - DB_HOST
-    stdin_open: true #tmp
-    tty: true #tmp
+#    stdin_open: true #tmp
+#    tty: true #tmp
 
   wordpress:
     build:
       context: requirements/wordpress
     networks:
-      - mybridge
+      - mynet
     volumes:
       - wpvol:/var/www/html
     depends_on:
@@ -40,7 +40,7 @@ services:
     build:
       context: requirements/nginx
     networks:
-      - mybridge
+      - mynet
     volumes:
       - wpvol:/var/www/html
     ports:
@@ -48,13 +48,22 @@ services:
     depends_on:
       - wordpress
     restart: always
-    stdin_open: true #tmp
-    tty: true #tmp
 
 networks:
-  mybridge:
+  mynet:
+    name: mynet
     driver: bridge
 
 volumes:
   wpvol:
-  # dbvol:
+    name: wpvol
+    driver_opts:
+      type: none
+      device: /home/sunwsong/data/wpvol
+      o: bind
+  dbvol:
+    name: dbvol
+    driver_opts:
+      type: none
+      device: /home/sunwsong/data/dbvol
+      o: bind
